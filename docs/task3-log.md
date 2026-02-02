@@ -14,7 +14,7 @@ Actions Taken:
 3. Removed direct port exposure from Rails container
 ![alt text](task3_ss/ss3.png)
 
-4. Exposed Nginx on port 80
+4. Exposed Nginx on port 80                            
 ![alt text](task3_ss/ss2.png)
 
 5. Verified application accessible only via Nginx
