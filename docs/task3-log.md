@@ -6,8 +6,11 @@ Environment:
 - branch: task3 from origin/main
 
 Actions Taken:
+
 1. Added Nginx container as reverse proxy
+
 2. Configured Nginx to proxy requests to Rails via Docker network
+
 3. Removed direct port exposure from Rails container
 ![alt text](task3_ss/ss3.png)
 
@@ -17,6 +20,15 @@ Actions Taken:
 5. Verified application accessible only via Nginx
 ![alt text](task3_ss/ss6.png)
 ![alt text](task3_ss/ss1.png)
+![alt text](task3_ss/ss7.png)
+
+6. Verified the logs using 
+
+```bash
+docker logs nginx
+docker logs rails-app
+```
+
 ![alt text](task3_ss/ss4.png)
 ![alt text](task3_ss/ss5.png)
 
