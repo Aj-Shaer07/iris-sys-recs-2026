@@ -32,5 +32,17 @@ Actions Taken:
 8. Verified that MySQL port is not exposed to the host machine
 ![alt text](task2_ss/ss8.png)
 
+9. Rails successfully connected to the MySQL container but detected pending migrations on first startup.
+
+Command executed:
+```bash
+docker exec -it rails-app bin/rails db:migrate
+```
+
+Then it worked
+![alt text](task2_ss/ss10.png)
+![alt text](task2_ss/ss11.png)
+
+
 Dependencies:
 - Dockerfile reused from task1 (branch: origin/task1)
