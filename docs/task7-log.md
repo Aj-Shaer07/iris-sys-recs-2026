@@ -23,5 +23,3 @@ docker restart nginx
 3. Verified no.of requests sent from an ip cannot be more than rate per sec + bucket (10 + 20)                       
 
 ![alt text](task7_ss/ss3.png)
-
-
