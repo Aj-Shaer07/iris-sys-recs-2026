@@ -19,6 +19,6 @@ Actions Taken:
 ![alt text](task5_ss/ss1.png) 
 ![alt text](task5_ss/ss6.png)
 
-5. Verified user can signup and login without issues and data remains in the database even after stopping the containers and restarting them.
+4. Verified user can signup and login without issues and data remains in the database even after stopping the containers and restarting them.
 
 ![alt text](task5_ss/ss7.png)
