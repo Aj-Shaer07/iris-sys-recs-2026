@@ -38,8 +38,7 @@ twice to mimic load and got following results.
 
 ![alt text](task8_ss/ss2.png) 
 ![alt text](task8_ss/ss3.png) 
-![alt text](task8_ss/ss5.png) 
-![alt text](task8_ss/ss6.png) 
+![alt text](task8_ss/ss5.png)
 ![alt text](task8_ss/ss9.png)
 
 Note: The CPU load was pretty constant since the SQL query is very simple and the curl request are not concurrent
