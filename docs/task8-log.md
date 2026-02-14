@@ -7,7 +7,7 @@ Environment:
 Actions Taken:
 1. Added Prometheus, cAdvisior (for per container log) and Grafana services in the docker compose file
 
-![alt text](task7_ss/ss1.png)
+![alt text](task8_ss/ss1.png)
 
 2. Configuered the prometheus.yml file to scrape infomation from node-exporter and cAdvisior
 
