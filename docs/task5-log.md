@@ -7,19 +7,18 @@ Environment:
 Actions Taken:
 1. Configured Nginx upstream by adding ip_hash to prevent CSRF authentication error
 
-![alt text](task4_ss/ss1.png)
+![alt text](task5_ss/ss5.png)
+![alt text](task5_ss/ss4.png)
 
 2. Launched three Rails containers and added a volume at /app/storage to prevent elements loading errors that might occur when loading images after refreshing the webpage.
 
-![alt text](task5_ss/ss4.png)
+![alt text](task5_ss/ss2.png)
 
 3. Launched mysql container with  persistence                        
 
-![alt text](task5_ss/ss2.png) 
-![alt text](task5_ss/ss3.png)
+![alt text](task5_ss/ss1.png) 
+![alt text](task5_ss/ss6.png)
 
 5. Verified user can signup and login without issues and data remains in the database even after stopping the containers and restarting them.
-![alt text](task4_ss/ss6.png)
 ![alt text](task4_ss/ss7.png)
-![alt text](task4_ss/ss8.png)
 
