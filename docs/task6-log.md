@@ -21,6 +21,6 @@ docker compose up -d --scale rails-app=3
 
 ![alt text](task6_ss/ss2.png) 
 
-5. Verified user can signup and login without issues and data remains in the database even after stopping the containers and restarting them.
+4. Verified user can signup and login without issues and data remains in the database even after stopping the containers and restarting them.
 ![alt text](task6_ss/ss3.png)
 ![alt text](task6_ss/ss4.png)
