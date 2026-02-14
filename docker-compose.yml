@@ -1,0 +1,63 @@
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - rails-mysql-data:/var/lib/mysql
+    networks:
+      - rails-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+  rails-app:
+    build: .
+    image: rails-rails-web-app
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    volumes:
+      - app-storage:/app/storage
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_HOST: mysql-db
+    command: bash -c "bundle exec rails server -b 0.0.0.0"
+    networks:
+      - rails-network 
+  migrator:
+    build: .
+    image: rails-rails-migrator
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_HOST: mysql-db
+    command: bash -c "bundle exec rails db:prepare"
+    networks:
+      - rails-network
+  nginx:
+    image: nginx:latest
+    container_name: rails-nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - rails-app
+    volumes:
+      - ./nginx:/etc/nginx/conf.d:ro
+    networks:
+      - rails-network
+
+volumes:
+  rails-mysql-data:
+  app-storage:
+  
+
+networks:
+  rails-network:
+    driver: bridge
