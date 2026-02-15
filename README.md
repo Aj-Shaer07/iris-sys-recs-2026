@@ -7,6 +7,11 @@ https://github.com/Aj-Shaer07/iris-sys-recs-2026.git
 
 ---
 
+# Note:
+The Readme file and screenshots for each of the task is in the docs/ directory of each branch
+
+---
+
 ## Task Branches
 
 | Task | Branch Link |
