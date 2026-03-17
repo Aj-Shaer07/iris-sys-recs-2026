@@ -53,10 +53,11 @@ services:
       - rails-app
     volumes:
       - ./nginx:/etc/nginx/conf.d:ro
-      - ./nginx/htpasswd:/etc/nginx/htpasswd:ro
+      - ./nginx/.htpasswd:/etc/nginx/.htpasswd:ro
     networks:
       - public
       - application
+      - monitoring
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
