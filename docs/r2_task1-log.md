@@ -7,7 +7,7 @@ Environment:
 Actions Taken:
 1. Added new networks-application, storage, monitoring, public
 
-2. Configuered the services' network to match the necessary network area and removed all the ports to prevent them from being exposed
+2. Configured the services' network to match the necessary network area and removed all the ports to prevent them from being exposed
 
 3. Ran 
 

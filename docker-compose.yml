@@ -57,6 +57,7 @@ services:
     networks:
       - public
       - application
+      - monitoring
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
