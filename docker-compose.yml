@@ -35,14 +35,6 @@ services:
       MYSQL_HOST: mysql-db
       REDIS_URL: ${REDIS_URL}
     command: bash -c "bundle exec rails server -b 0.0.0.0"
-    # command: >
-    #   bash -c "
-    #     apt-get update &&
-    #     apt-get install -y nfs-common &&
-    #     mkdir -p /mnt/shared &&
-    #     mount -t nfs 172.28.0.10:/exports /mnt/shared &&
-    #     bundle exec rails server -b 0.0.0.0
-    #   "
     networks:
       - application
       - storage
@@ -80,8 +72,10 @@ services:
     container_name: prometheus
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: unless-stopped
     networks:
       - monitoring
+      - application
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
@@ -90,45 +84,44 @@ services:
       - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+    restart: unless-stopped
     networks:
       - monitoring
+      - application
   node-exporter:
     image: prom/node-exporter:latest
     container_name: node-exporter
+    restart: unless-stopped
     networks:
       - monitoring
+      - application
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
     volumes:
       - grafana_data:/var/lib/grafana
+    restart: unless-stopped
     networks:
       - monitoring
-  # nfs-server:
-  #   image: erichough/nfs-server:latest
-  #   container_name: nfs-server
-  #   privileged: true
-  #   environment:
-  #     NFS_EXPORT_0: "/exports *(rw,sync,no_subtree_check,no_root_squash)"
-  #   volumes:
-  #     - ~/iris-sys-recs-2026/exports:/exports
-  #   networks:
-  #     storage:
-  #       ipv4_address: 172.28.0.10
-  
+      - application
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: nginx-exporter
+    command:
+      - --nginx.scrape-uri=http://rails-nginx/nginx_status
+    depends_on:
+      - nginx
+    networks:
+      - monitoring
+      - application
 
 volumes:
   rails-mysql-data:
   app-storage:
   grafana_data:
-  # nfs_data:
-  
+
 networks:
   public:
   application:
   storage:
-    # driver: bridge
-    # ipam:
-    #   config:
-    #     - subnet: 172.28.0.0/16
   monitoring:
