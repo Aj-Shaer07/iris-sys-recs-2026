@@ -22,7 +22,21 @@ docker compose up --scale rails-app=3
 ![alt text](r2_t3_ss/ss3.png)
 ![alt text](r2_t3_ss/ss5.png)
 
-3.Verified prometheus scraping Nginx metrics, cAdvisor and Node Exporter and Grafana dashboards
+3.Verified prometheus scraping Nginx metrics, cAdvisor and Node Exporter and Grafana dashboards using the following queries
+
+```promql
+rate(container_cpu_usage_seconds_total[1m])
+```
+```promql
+container_memory_usage_bytes / 1024 / 1024
+```
+```promql
+changes(container_start_time_seconds[5m])
+```
+```promql
+rate(nginx_http_requests_total[1m])
+```
+
 
 ![alt text](r2_t3_ss/ss1.png)
 ![alt text](r2_t3_ss/ss4.png)
