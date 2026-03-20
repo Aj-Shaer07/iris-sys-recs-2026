@@ -1,10 +1,10 @@
 services:
-  redis:
-    image: redis:7-alpine
-    container_name: redis
-    networks:
-      - application
-    restart: unless-stopped
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: redis
+  #   networks:
+  #     - application
+  #   restart: unless-stopped
   mysql-db:
     image: mysql:8.0
     container_name: mysql-db
@@ -27,22 +27,16 @@ services:
       mysql-db:
         condition: service_healthy
     volumes:
-      - app-storage:/app/storage
+      - type: volume
+        source: shared_data
+        target: /app/storage
     environment:
       SECRET_KEY_BASE: ${SECRET_KEY}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_HOST: mysql-db
-      REDIS_URL: ${REDIS_URL}
+      # REDIS_URL: ${REDIS_URL}
     command: bash -c "bundle exec rails server -b 0.0.0.0"
-    # command: >
-    #   bash -c "
-    #     apt-get update &&
-    #     apt-get install -y nfs-common &&
-    #     mkdir -p /mnt/shared &&
-    #     mount -t nfs 172.28.0.10:/exports /mnt/shared &&
-    #     bundle exec rails server -b 0.0.0.0
-    #   "
     networks:
       - application
       - storage
@@ -57,7 +51,8 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_HOST: mysql-db
-      REDIS_URL: ${REDIS_URL}
+      # REDIS_URL: ${REDIS_URL}
+      SECRET_KEY_BASE: ${SECRET_KEY}
     command: bash -c "bundle exec rails db:prepare"
     networks:
       - application
@@ -104,24 +99,29 @@ services:
       - grafana_data:/var/lib/grafana
     networks:
       - monitoring
-  # nfs-server:
-  #   image: erichough/nfs-server:latest
-  #   container_name: nfs-server
-  #   privileged: true
-  #   environment:
-  #     NFS_EXPORT_0: "/exports *(rw,sync,no_subtree_check,no_root_squash)"
-  #   volumes:
-  #     - ~/iris-sys-recs-2026/exports:/exports
-  #   networks:
-  #     storage:
-  #       ipv4_address: 172.28.0.10
+  nfs-server:
+    image: itsthenetwork/nfs-server-alpine:latest
+    container_name: nfs-server
+    privileged: true
+    restart: unless-stopped
+    environment:
+      SHARED_DIRECTORY: /exports
+    volumes:
+      - shared_data:/exports
+    networks:
+      - storage
   
 
 volumes:
   rails-mysql-data:
-  app-storage:
+  # app-storage:
   grafana_data:
-  # nfs_data:
+  shared_data:
+    driver: local
+    # driver_opts:
+    #   type: nfs
+    #   o: addr=nfs-server,rw,nolock,soft
+    #   device: ":/exports"
   
 networks:
   public:

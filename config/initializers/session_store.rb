@@ -1,1 +1,1 @@
-Rails.application.config.session_store :cache_store, key: '_iris-sys-recs-2026_session'
+# Rails.application.config.session_store :cache_store, key: '_iris-sys-recs-2026_session'

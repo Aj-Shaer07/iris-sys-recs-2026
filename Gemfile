@@ -6,8 +6,8 @@ ruby "3.4.1"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.10"
 
-gem "redis"
-gem "redis-rails"
+# gem "redis"
+# gem "redis-rails"
 
 gem 'activesupport', '~> 7.0', '>= 7.0.10'
 

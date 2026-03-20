@@ -71,8 +71,9 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
   
   #Redis Cache_Store
-  config.cache_store= :redis_cache_store, {
-    url: ENV['REDIS_URL'],
-    namespace: 'session' 
-  }
+  # config.cache_store= :redis_cache_store, {
+  #   url: ENV['REDIS_URL'],
+  #   namespace: 'session' 
+  # }
+  config.secret_key_base = ENV.fetch('SECRET_KEY_BASE')
 end
