@@ -1,5 +1,4 @@
 require_relative "boot"
-require_relative "../app/middleware/prometheus_middleware"
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
@@ -11,7 +10,8 @@ module IrisSystemsRecTask
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
-    config.paths.add 'app/middleware', eager_load: true
+    # config.paths.add 'app/middleware', eager_load: true
+    require_relative "../app/middleware/prometheus_middleware"
     Rails.application.config.middleware.use PrometheusMiddleware
 
     # Configuration for the application, engines, and railties goes here.

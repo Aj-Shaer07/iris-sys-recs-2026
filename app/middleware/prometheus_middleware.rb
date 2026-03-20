@@ -2,16 +2,20 @@ class PrometheusMiddleware
   def initialize(app)
     @app = app
     @registry = Prometheus::Client.registry
-    @http_requests = @registry.counter(
-      :http_requests_total,
-      docstring: 'A counter of the total number of HTTP requests made.',
-      labels: [:path, :status]
-    )
-    @http_latency = @registry.histogram(
-      :http_request_duration_seconds,
-      docstring: 'A histogram of the response latency of HTTP requests.',
-      labels: [:path, :status]
-    )
+
+    @http_requests = @registry.get(:http_requests_total) ||
+                     @registry.counter(
+                       :http_requests_total,
+                       docstring: 'A counter of the total number of HTTP requests made.',
+                       labels: [:path, :status]
+                     )
+
+    @http_latency = @registry.get(:http_request_duration_seconds) ||
+                     @registry.histogram(
+                       :http_request_duration_seconds,
+                       docstring: 'A histogram of the response latency of HTTP requests.',
+                       labels: [:path, :status]
+                     )
   end
 
   def call(env)
