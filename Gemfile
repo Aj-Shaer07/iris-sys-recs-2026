@@ -9,6 +9,8 @@ gem "rails", "~> 7.0.10"
 gem "redis"
 gem "redis-rails"
 
+gem "prometheus-client"
+
 gem 'activesupport', '~> 7.0', '>= 7.0.10'
 
 gem 'activerecord', '~> 7.0', '>= 7.0.10'

@@ -75,4 +75,8 @@ Rails.application.configure do
     url: ENV['REDIS_URL'],
     namespace: 'session' 
   }
+
+  config.secret_key_base = ENV['SECRET_KEY_BASE']
+
+  config.host.clear
 end
