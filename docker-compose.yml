@@ -75,8 +75,10 @@ services:
     container_name: prometheus
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: unless-stopped
     networks:
       - monitoring
+      - application
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
@@ -110,8 +112,36 @@ services:
       - shared_data:/exports
     networks:
       - storage
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: nginx-exporter
+    command:
+      - --nginx.scrape-uri=http://rails-nginx/nginx_status
+    depends_on:
+      - nginx
+    networks:
+      - monitoring
+      - application
+  backup:
+    build: ./backup
+    container_name: backup
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_HOST: mysql-db
+      SECRET_KEY_BASE: ${SECRET_KEY}
+    networks:
+      - application
+      - storage
+    volumes:
+      - shared_data:/backup
+      - backup_data:/backup_data
+    depends_on:
+      - mysql-db
+    restart: unless-stopped
   
-
+  
 volumes:
   rails-mysql-data:
   # app-storage:
@@ -122,6 +152,7 @@ volumes:
     #   type: nfs
     #   o: addr=nfs-server,rw,nolock,soft
     #   device: ":/exports"
+  backup_data:
   
 networks:
   public:
